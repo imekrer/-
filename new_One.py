@@ -6,16 +6,25 @@ question_num= None
 #главная страница
 def index():
     test_url= url_for('test')
-    session[question_num]= 0
     print(test_url)
-    result= f'''<h1>Главная страница</h1>
-    <h3>Список виктоин</h3>
-    <ul>
-        <li><a href='{test_url}'>Виктоина 1</a></li>
-        <li>Виктоина 2</li>
-        <li>Виктоина 3</li>
-    '''
-    return result
+    if request.method == 'GET':
+        result= f'''<h1>Главная страница</h1>
+        <h3>Список виктоин</h3>
+        <form method= 'POST' action='/'>
+            <select>
+                <option values='1'><a href='{test_url}'>Виктоина 1</a></option>
+                <option values='2'>Виктоина 2</option>
+                <option values='3'>Виктоина 3</option>
+            </select>
+            <input type='submit>Выбрать</input>
+        </form>
+        '''
+        return result
+    if request.method == 'POST':
+        print(repuest.form)
+        return redirect(url_for('test'))
+
+
 #тест
 def test():
     next_url=url_for('test')
@@ -33,7 +42,7 @@ def result():
     """
 
 #сайты
-app.add_url_rule('/', 'index', index)
+app.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
 app.add_url_rule('/test', 'test', test)
 app.add_url_rule('/result', 'result', result)
 
